@@ -1,2 +1,6 @@
 https://pypi.python.org/pypi/gTTS
 https://github.com/pndurette/gTTS
+
+pydev update - http://pydev.org/updates
+ScalaIDE - http://download.scala-ide.org/sdk/lithium/e46/scala211/stable/site
+

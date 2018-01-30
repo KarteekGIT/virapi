@@ -1,5 +1,6 @@
 from gtts import gTTS
 import os
+from Reader import Reader
 class StartEvent(object):
     def __init__(self):
         pass
@@ -24,17 +25,18 @@ class StartEvent(object):
         for line in file:
             text = text+line
         tts = gTTS(text, lang='en', slow=True)
-        tts.save('file.mp3')
-        file.close()
-        #print(text, type(text))   `     
+        self.mp3file = "readdocs/file.mp3"
+        tts.save(self.mp3file)
+        file.close()     
     def signal_filters(self):
         '''
             code for signal filtering
         '''
     def cloud_saving_and_reader_threads(self):
-        '''
-        Create threads to save file to cloud and start reader module
-        '''
+        read = Reader(self.mp3file)
+        read.reading()
+        
 if __name__=='__main__':
     start = StartEvent()
     start.convert_text_to_mp3()
+    start.cloud_saving_and_reader_threads()
