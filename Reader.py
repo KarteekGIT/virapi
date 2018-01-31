@@ -1,12 +1,14 @@
-from pygame import mixer
+import pygame
 class Reader(object):
     def __init__(self, filename):
         self.filename = filename
     def reading(self):
-        mixer.init()
-        mixer.music.load(self.filename)
-        mixer.music.play()
-        print(self.filename, type(self.filename))
+        #pygame.mixer.pre_init(44100, -16, 2, 2048)
+        pygame.mixer.init()
+        pygame.mixer.music.load(self.filename)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
         print("Done")
     def play_or_stop(self):
         '''

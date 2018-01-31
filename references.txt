@@ -4,3 +4,5 @@ https://github.com/pndurette/gTTS
 pydev update - http://pydev.org/updates
 ScalaIDE - http://download.scala-ide.org/sdk/lithium/e46/scala211/stable/site
 
+https://www.pygame.org/docs/ref/music.html
+

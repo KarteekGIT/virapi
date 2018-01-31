@@ -24,7 +24,7 @@ class StartEvent(object):
         file = open('text/textfile.txt')
         for line in file:
             text = text+line
-        tts = gTTS(text, lang='en', slow=True)
+        tts = gTTS(text, lang='en', slow=False)
         self.mp3file = "readdocs/file.mp3"
         tts.save(self.mp3file)
         file.close()     
@@ -32,11 +32,14 @@ class StartEvent(object):
         '''
             code for signal filtering
         '''
-    def cloud_saving_and_reader_threads(self):
+    def reader_thread(self):
         read = Reader(self.mp3file)
         read.reading()
+        
+    def save_to_cloud_thread(self):
+        pass
         
 if __name__=='__main__':
     start = StartEvent()
     start.convert_text_to_mp3()
-    start.cloud_saving_and_reader_threads()
+    start.reader_thread()
