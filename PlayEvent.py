@@ -9,4 +9,6 @@ class PlayEvent(object):
         '''
             Code that skips files
         '''
-    
+if __name__=='__main__':
+    play = PlayEvent()
+    play.reader_thread()

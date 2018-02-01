@@ -1,5 +1,6 @@
 import multiprocessing
 from time import sleep
+from StartEvent import StartEvent
 
 def main():
     lock = multiprocessing.Lock()
@@ -9,24 +10,23 @@ def main():
             sensor = fileOpen.read(5)
             sensor = sensor.strip("\n")
             if(sensor == 'True'):
+                print("inside sensor")
                 lock.acquire(block=True)
-                print('sensor detected, running program')
-                sleep(10)
-                '''
-                    The thread to be executed when document is placed 
-                    and detected by the sensor
-                '''
+                
+                start = StartEvent()
+                start.go()
+                
                 fileOpen.seek(0)
                 fileOpen.write('False')
                 fileOpen.truncate()
+                
+                lock.release()
                 fileOpen.close()
                 print('Done, exiting and releasing sensor lock')
-                lock.release()
 
     def process_for_playOrStop():
         while True:
             filePlay = open('buttons/play', 'r+')
-            fileStop = open('buttons/stop', 'r+')
             play = filePlay.read(5)
             play = play.strip('\n')
             if(play == 'True'):
@@ -37,19 +37,11 @@ def main():
                     The thread to be executed when play button is pressed
                 '''
                 filePlay.seek(0)
-                fileStop.seek(0)
-            
                 filePlay.write('False')
-                fileStop.write('True')
-                
                 filePlay.truncate()
-                fileStop.truncate()
-                
                 filePlay.close()
-                fileStop.close()
-                
-                print('Done, Exiting and releasing play lock')
                 lock.release()
+                print('Done, Exiting and releasing play lock')
 
     process_running = []
     

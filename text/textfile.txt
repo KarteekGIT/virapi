@@ -1,28 +1,4 @@
-So I am trying to get gTTS to work
-I know that you are supposed to import with from gtts import gTTS.
-I have a new virtualenv, with gtts, and speechrecognition installed and no matter what I do I can't get gTTS to import
-If I try: from gtts import gTTS
-ImportError: cannot import name 'gTTS'
-Any ideas?
-Using Python 3.5.2
-So I am trying to get gTTS to work
-I know that you are supposed to import with from gtts import gTTS.
-I have a new virtualenv, with gtts, and speechrecognition installed and no matter what I do I can't get gTTS to import
-If I try: from gtts import gTTS
-ImportError: cannot import name 'gTTS'
-Any ideas?
-Using Python 3.5.2
-So I am trying to get gTTS to work
-I know that you are supposed to import with from gtts import gTTS.
-I have a new virtualenv, with gtts, and speechrecognition installed and no matter what I do I can't get gTTS to import
-If I try: from gtts import gTTS
-ImportError: cannot import name 'gTTS'
-Any ideas?
-Using Python 3.5.2
-So I am trying to get gTTS to work
-I know that you are supposed to import with from gtts import gTTS.
-I have a new virtualenv, with gtts, and speechrecognition installed and no matter what I do I can't get gTTS to import
-If I try: from gtts import gTTS
-ImportError: cannot import name 'gTTS'
-Any ideas?
-Using Python 3.5.2
+Prior to Java 9, there was a period of overlap where the newly GA version was 
+"bedded in", before declaring it the preferred version. Free updates would continue 
+
+
