@@ -3,10 +3,12 @@ import os
 import multiprocessing as mp
 from Reader import Reader
 import datetime
+
 class StartEvent(object):
     def __init__(self):
         self.image = "image/image.jpg"
         self.text = "text/textfile.txt"
+        self.running = True
         
     def camera_module(self):
         #if(os.path.exists(self.image)):
@@ -60,22 +62,22 @@ class StartEvent(object):
         '''
         
     def execute_start(self):
-        while True:
+        while self.running:
             fileOpen = open("buttons/start", "r+")
             start = fileOpen.read(5)
             start = start.strip("\n")
             if(start == "True"):
+                fileOpen.seek(0)
+                fileOpen.write('False')
+                fileOpen.truncate()
+                fileOpen.close()
                 self.camera_module()
                 self.image_filters()
                 self.convert_image_to_text()
                 self.convert_text_to_mp3()
                 self.signal_filters()
                 self.reader()
-
-                fileOpen.seek(0)
-                fileOpen.write('False')
-                fileOpen.truncate()
-                fileOpen.close()
+                self.running = False
                 print("again in start event")
             
     def go(self):
@@ -85,6 +87,6 @@ class StartEvent(object):
         if execute.is_alive():
             execute.join()
             
-if __name__=="__main__":
-    start = StartEvent()
-    start.go()
+#if __name__=="__main__":
+#    start = StartEvent()
+#    start.go()
