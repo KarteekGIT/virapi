@@ -35,10 +35,9 @@ def process_for_sensor():
                 
                 start = StartEvent()
                 start.go()
-
-                lock.release()
                 print('Done, exiting and releasing sensor lock')
                 SetDefaults()
+                lock.release()
     
 def process_for_playOrStop():
         while True:
@@ -56,8 +55,8 @@ def process_for_playOrStop():
                 '''
                     The thread to be executed when play button is pressed
                 '''
-                lock.release()
                 print('Done, Exiting and releasing play lock')
                 SetDefaults()
+                lock.release()
             
 if __name__ == '__main__':main()

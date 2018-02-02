@@ -6,3 +6,13 @@ ScalaIDE - http://download.scala-ide.org/sdk/lithium/e46/scala211/stable/site
 
 https://www.pygame.org/docs/ref/music.html
 
+gstream linux plugin
+
+https://pypi.python.org/pypi/tesserocr
+
+clientid :  1013657981159-6s78ja9ea94hfnsrikq1pi95d7smnq07.apps.googleusercontent.com
+clientsec :  QZy9FnZYJvJylzH-LaOVtLVw
+
+https://github.com/googledrive/PyDrive/issues/72
+https://googledrive.github.io/PyDrive/docs/build/html/quickstart.html
+

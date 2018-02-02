@@ -3,10 +3,13 @@ import os
 import multiprocessing as mp
 from Reader import Reader
 import datetime
+from tesserocr import PyTessBaseAPI
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 
 class StartEvent(object):
     def __init__(self):
-        self.image = "image/image.jpg"
+        self.image = "image/image.png"
         self.text = "text/textfile.txt"
         self.running = True
         
@@ -25,10 +28,13 @@ class StartEvent(object):
             code for image filtering
         '''
     def convert_image_to_text(self):
-        pass
-        '''
-            Code to convert image to mp3 file
-        '''
+        fileOPen = open(self.text, "w")
+        with PyTessBaseAPI() as api:
+            api.SetImageFile(self.image)
+            text = api.GetUTF8Text()
+            for line in str(text):
+                fileOPen.write(line)
+        
     def convert_text_to_mp3(self):
         print("Converting to mp3")
         text = ""
@@ -55,12 +61,42 @@ class StartEvent(object):
         read.go()
     
     def save_file_to_cloud(self):
-        pass
-        ''''
-        code that saves file to cloud
-        
-        '''
-        
+        try:
+            import httplib
+        except:
+            import http.client as httplib
+        conn = httplib.HTTPConnection("www.google.com", timeout=5)
+        try:
+            conn.request("HEAD", "/")
+            conn.close()
+        except:
+            print("no internet connection")
+            conn.close()
+            return
+        folderid = None    
+        gauth = GoogleAuth()
+        gauth.LocalWebserverAuth()
+        drive = GoogleDrive(gauth)
+        file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()                            
+        for file1 in file_list:
+            #print(file1['title'], type(file1['title']))
+            if(file1['title'] == "vira"):
+                folderid = file1['id']
+                break
+        if(folderid):
+            print("Folder found")
+        else:
+            print("creating new folder")
+            folder = "vira"
+            newfolder_metadata = {'title' : folder, 'mimeType' : 'application/vnd.google-apps.folder'}
+            newfolder = drive.CreateFile(newfolder_metadata)
+            newfolder.Upload()
+            folderid = newfolder['id']
+        print("Uploading file to folder")
+        newfile = drive.CreateFile({"parents": [{"kind": "drive#fileLink", "id": folderid}]})
+        newfile.SetContentFile(self.mp3file)
+        newfile.Upload()
+            
     def execute_start(self):
         while self.running:
             fileOpen = open("buttons/start", "r+")
@@ -77,6 +113,7 @@ class StartEvent(object):
                 self.convert_text_to_mp3()
                 self.signal_filters()
                 self.reader()
+                self.save_file_to_cloud()
                 self.running = False
                 print("again in start event")
             
@@ -89,4 +126,5 @@ class StartEvent(object):
             
 #if __name__=="__main__":
 #    start = StartEvent()
-#    start.go()
+#    start.convert_text_to_mp3()
+#    start.save_file_to_cloud()

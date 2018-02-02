@@ -8,13 +8,13 @@ class Reader(object):
         self.running_process=[]
         pygame.mixer.init()
         pygame.mixer.music.load(self.filename)
-        setdefaults = SetDefaults()        
+        SetDefaults()        
         
     def reading(self):
         print("Reader started")
         pygame.mixer.music.play()
         try:
-            while pygame.mixer.music.get_busy(): 
+            while pygame.mixer.music.get_busy():
                 fileOpen = open("buttons/start", "r+")
                 end = fileOpen.read(5)
                 end = end.strip("\n")
@@ -23,6 +23,7 @@ class Reader(object):
                     fileOpen.write("False")
                     fileOpen.truncate()
                     fileOpen.close()
+                    SetDefaults()
                     pygame.quit()
             print("Done")
         except:

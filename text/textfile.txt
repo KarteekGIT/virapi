@@ -1,4 +1,33 @@
-Prior to Java 9, there was a period of overlap where the newly GA version was 
-"bedded in", before declaring it the preferred version. Free updates would continue 
+Mathieu Deschamps is the founder of ScourGE (www. scourge . ft), which
+provides open source software/hardware innovation services to its clients. They
+are leaders in the fields of telecommunication, mobile communication, industrial
+processes, and decision support systems.
 
+He is an R&D business consultant and a trainer. Also, since 2003, he has been an
+independent tech-driver, involved in many large and small scale projects around
+GNU/Linux, Android, embedded systems engineering, and security.
+
+Mark Furman, author of OpenVZ Essentials, currently works as a systems
+engineer for Info-Link Technologies. He has been in the IT field for over 10 years
+and specializes in Linux and other open source technologies. In his spare time, he
+enjoys writing and reviewing books on Linux and other open source technologies
+as well as tinkering with Arduino, Python, and Raspberry I’i projects at Knox Labs,
+a Hackerspace located in Knox County, OH.
+
+Klaas van Gend graduated in systems and control engineering at Eindhoven
+University of Technology in the Netherlands. He worked for companies, including
+Philips, Siemens, and Bosch, writing software for printer prototypes, video encryption,
+car infotainment, medical equipment, industrial automation, and navigation systems.
+In 2004, he switched over to MontaVista Software, which was the market leader
+
+for embedded Linux. As a systems architect and consultant, he worked with many
+companies all over Europe, integrating embedded Linux into their products.
+
+For the last few years, he has been working as a trainer and consultant for Vector
+Fabrics, a small start-up specializing in multi-core programming and software
+dynamic analysis. He teaches multi-core programming in C and C++ and helps
+customers improve software performance by utilizing hardware resources in a
+better way. Vector Fabrics' Pareon tool suite also automatically finds hard-to-find
+dynamic bugs, including data races, buffer overruns, use-after-free for heap and
+stack variables, and memory leaks.
 
