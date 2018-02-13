@@ -16,8 +16,6 @@ class StartEvent(object):
     def camera_module(self):
         #if(os.path.exists(self.image)):
         #    os.remove(self.image)
-        #if(os.path.exists(self.text)):
-        #    os.remove(self.text)
         pass
         '''
             Run camera module here to take the picture and save it for processing

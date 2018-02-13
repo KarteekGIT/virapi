@@ -76,6 +76,12 @@ class Reader(object):
                     pygame.mixer.music.rewind()
         except:
             print("Exiting")
+            
+    def volume_up_down(self):
+        '''
+            Code to control volume
+            
+        '''
                 
     def go(self):
         print("Ready for reading")
@@ -92,3 +98,15 @@ class Reader(object):
         for proc in self.running_process:
             if proc.is_alive():
                 proc.join()        
+                
+    def go_for_play(self):
+        reading = mp.Thread(target=self.reading, name="reading process")
+        playing = mp.Thread(target=self.play_or_stop, name="process waiting for play")
+        reading.start()
+        playing.start()
+        print("Process for play stop rewind started")
+        self.running_process.append(playing)
+        self.running_process.append(reading)    
+        for proc in self.running_process:
+            if proc.is_alive():
+                proc.join()
