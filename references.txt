@@ -16,3 +16,6 @@ clientsec :  QZy9FnZYJvJylzH-LaOVtLVw
 https://github.com/googledrive/PyDrive/issues/72
 https://googledrive.github.io/PyDrive/docs/build/html/quickstart.html
 
+http://www.leptonica.org/source/README.html#BUILDING
+https://github.com/DanBloomberg/leptonica/tree/master/src
+

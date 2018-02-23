@@ -77,7 +77,6 @@ class StartEvent(object):
         drive = GoogleDrive(gauth)
         file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()                            
         for file1 in file_list:
-            #print(file1['title'], type(file1['title']))
             if(file1['title'] == "vira"):
                 folderid = file1['id']
                 break

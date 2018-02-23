@@ -25,8 +25,10 @@ class Reader(object):
                     fileOpen.close()
                     SetDefaults()
                     pygame.quit()
+            SetDefaults()
             print("Done")
         except:
+            SetDefaults()
             print("Exiting")
     def play_or_stop(self):
         try:
@@ -59,6 +61,7 @@ class Reader(object):
                         fileOpen.close()
                         pygame.mixer.music.pause()
         except:
+            SetDefaults()
             print("Exiting")
 
     def rewind(self):
