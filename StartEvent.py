@@ -6,12 +6,14 @@ import datetime
 from tesserocr import PyTessBaseAPI
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+from Defaults import SetDefaults
 
 class StartEvent(object):
     def __init__(self):
         self.image = "image/image.png"
         self.text = "text/textfile.txt"
         self.running = True
+        self.fileDealer = SetDefaults()
         
     def camera_module(self):
         #if(os.path.exists(self.image)):
@@ -34,6 +36,11 @@ class StartEvent(object):
                 fileOPen.write(line)
         
     def convert_text_to_mp3(self):
+        fileList = os.listdir("readdocs")
+        numOfFiles = len(fileList)
+        if(numOfFiles > 5):
+            for file in fileList:
+                os.remove("readdocs/"+file)        
         print("Converting to mp3")
         text = ""
         file = open(self.text)
@@ -90,20 +97,15 @@ class StartEvent(object):
             newfolder.Upload()
             folderid = newfolder['id']
         print("Uploading file to folder")
-        newfile = drive.CreateFile({"parents": [{"kind": "drive#fileLink", "id": folderid}]})
+        newfile = drive.CreateFile({"parents": [{"kind": "drive#fileLink", "id": folderid}], "title": self.mp3file[9:]})
         newfile.SetContentFile(self.mp3file)
         newfile.Upload()
             
     def execute_start(self):
         while self.running:
-            fileOpen = open("buttons/start", "r+")
-            start = fileOpen.read(5)
-            start = start.strip("\n")
+            start = self.fileDealer.fileReader("buttons/start")
             if(start == "True"):
-                fileOpen.seek(0)
-                fileOpen.write('False')
-                fileOpen.truncate()
-                fileOpen.close()
+                self.fileDealer.fileWriter("buttons/start")
                 self.camera_module()
                 self.image_filters()
                 self.convert_image_to_text()
@@ -112,6 +114,7 @@ class StartEvent(object):
                 self.reader()
                 self.save_file_to_cloud()
                 self.running = False
+                self.fileDealer.fileWriter("buttons/play")
                 print("again in start event")
             
     def go(self):
@@ -120,8 +123,3 @@ class StartEvent(object):
         execute.start()
         if execute.is_alive():
             execute.join()
-            
-#if __name__=="__main__":
-#    start = StartEvent()
-#    start.convert_text_to_mp3()
-#    start.save_file_to_cloud()

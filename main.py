@@ -1,11 +1,12 @@
 import multiprocessing
-from time import sleep
 from StartEvent import StartEvent
 from Defaults import SetDefaults
+from PlayEvent import PlayEvent
+from Reader import Reader
 
+fileDealer = SetDefaults()
 lock = multiprocessing.Lock()
 def main():
-    SetDefaults()
     process_running = []
     
     sensor_process = multiprocessing.Process(target=process_for_sensor, name='Process Waiting For Sensor')
@@ -22,39 +23,28 @@ def main():
             proc.join()
 def process_for_sensor():
         while True:
-            fileOpen = open('buttons/sensor', 'r+')
-            sensor = fileOpen.read(5)
-            sensor = sensor.strip("\n")
-            if(sensor == 'True'):
-                print("inside sensor")
-                fileOpen.seek(0)
-                fileOpen.write('False')
-                fileOpen.truncate()
-                fileOpen.close()
+            sensor = fileDealer.fileReader("buttons/sensor")
+            if(sensor == "True"):
+                fileDealer.fileWriter("buttons/sensor")
                 lock.acquire(block=True)
-                
+                print("inside sensor")
                 start = StartEvent()
                 start.go()
-                print('Done, exiting and releasing sensor lock')
+                print("Done, exiting and releasing sensor lock")
                 SetDefaults()
                 lock.release()
     
 def process_for_playOrStop():
         while True:
-            filePlay = open('buttons/play', 'r+')
-            play = filePlay.read(5)
-            play = play.strip('\n')
-            if(play == 'True'):
-                filePlay.seek(0)
-                filePlay.write('False')
-                filePlay.truncate()
-                filePlay.close()
+            play = fileDealer.fileReader("buttons/next")
+            if(play == "True"):
+                fileDealer.fileWriter("buttons/next")
+                print("Play button is pressed, running program")
                 lock.acquire(block=True)
-                print('Play button is pressed, running program')
-                sleep(10)
-                '''
-                    The thread to be executed when play button is pressed
-                '''
+                firstDownload = PlayEvent()
+                firstFile = firstDownload.download(firstDownload.cursor[0]["id"], firstDownload.cursor[0]["title"])
+                playFirst = Reader(firstFile)
+                playFirst.go_for_play()
                 print('Done, Exiting and releasing play lock')
                 SetDefaults()
                 lock.release()
