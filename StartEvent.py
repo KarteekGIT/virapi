@@ -1,9 +1,9 @@
 from gtts import gTTS
 import os
+from tesserocr import PyTessBaseAPI
 import multiprocessing as mp
 from Reader import Reader
 import datetime
-from tesserocr import PyTessBaseAPI
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from Defaults import SetDefaults
@@ -22,18 +22,17 @@ class StartEvent(object):
         '''
             Run camera module here to take the picture and save it for processing
         '''    
-    def image_filters(self):
-        pass
-        '''
-            code for image filtering
-        '''
     def convert_image_to_text(self):
-        fileOPen = open(self.text, "w")
-        with PyTessBaseAPI() as api:
-            api.SetImageFile(self.image)
-            text = api.GetUTF8Text()
-            for line in str(text):
-                fileOPen.write(line)
+        os.system("sh imageToText.sh")
+        #fileOPen = open(self.text, "w")
+        #with PyTessBaseAPI() as api:
+            #api.SetImageFile(self.image)
+            #text = api.GetUTF8Text()
+            #for line in str(text):
+                #try:
+                    #fileOPen.write(line)
+                #except:
+                    #print("Invalid character. Cannot convert")
         
     def convert_text_to_mp3(self):
         fileList = os.listdir("readdocs")
@@ -44,8 +43,14 @@ class StartEvent(object):
         print("Converting to mp3")
         text = ""
         file = open(self.text)
-        for line in file:
-            text = text+line
+        try:
+            for line in file:
+                try:
+                    text = str(text+line)
+                except:
+                    print("Invalid characters left out")
+        except:
+            print("Invalid characters left out, outer loop")
         tts = gTTS(text, lang='en', slow=False)
         now = datetime.datetime.now()
         s = str(now)
@@ -53,12 +58,6 @@ class StartEvent(object):
         self.mp3file = "readdocs/"+s+".mp3"
         tts.save(self.mp3file)
         file.close()     
-        
-    def signal_filters(self):
-        pass
-        '''
-            code for signal filtering
-        '''
     
     def reader(self):
         print("Sending file to read")
@@ -105,12 +104,11 @@ class StartEvent(object):
         while self.running:
             start = self.fileDealer.fileReader("buttons/start")
             if(start == "True"):
+                print("starting")
                 self.fileDealer.fileWriter("buttons/start")
                 self.camera_module()
-                self.image_filters()
                 self.convert_image_to_text()
                 self.convert_text_to_mp3()
-                self.signal_filters()
                 self.reader()
                 self.save_file_to_cloud()
                 self.running = False
@@ -118,7 +116,7 @@ class StartEvent(object):
                 print("again in start event")
             
     def go(self):
-        print("starting")
+        
         execute = mp.Process(target=self.execute_start, name="process for start button")
         execute.start()
         if execute.is_alive():

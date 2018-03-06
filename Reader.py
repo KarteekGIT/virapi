@@ -103,7 +103,7 @@ class Reader(object):
         if(numOfDriveFiles > 1):
             self.mp3file = self.mp3file = fileDownload.download(fileDownload.cursor[self.nextOrPrevflag]['id'],fileDownload.cursor[self.nextOrPrevflag]['title'])
             pygame.mixer.music.queue(self.mp3file)
-        try:
+        try:        
             while self.run:
                 if(nextStatus < self.nextOrPrevflag):
                     print("flag next: "+str(self.nextOrPrevflag))

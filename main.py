@@ -6,6 +6,7 @@ from Reader import Reader
 
 fileDealer = SetDefaults()
 lock = multiprocessing.Lock()
+condition = multiprocessing.Condition()
 def main():
     process_running = []
     
@@ -22,31 +23,42 @@ def main():
         if(proc.is_alive()):
             proc.join()
 def process_for_sensor():
-        while True:
-            sensor = fileDealer.fileReader("buttons/sensor")
-            if(sensor == "True"):
-                fileDealer.fileWriter("buttons/sensor")
-                lock.acquire(block=True)
-                print("inside sensor")
-                start = StartEvent()
-                start.go()
-                print("Done, exiting and releasing sensor lock")
-                SetDefaults()
-                lock.release()
+    condition.acquire()    
+    while True:
+        play = fileDealer.fileReader("buttons/play")
+        if(play == "True"):
+            condition.wait()
+        sensor = fileDealer.fileReader("buttons/start")
+        if(sensor == "True"):
+            fileDealer.fileWriter("buttons/start")
+            lock.acquire(block=True)
+            print("inside sensor")
+            start = StartEvent()
+            start.go()
+            print("Done, exiting and releasing sensor lock")
+            SetDefaults()
+            condition.notify()
+            lock.release()
+    condition.release()
     
 def process_for_playOrStop():
-        while True:
-            play = fileDealer.fileReader("buttons/next")
-            if(play == "True"):
-                fileDealer.fileWriter("buttons/next")
-                print("Play button is pressed, running program")
-                lock.acquire(block=True)
-                firstDownload = PlayEvent()
-                firstFile = firstDownload.download(firstDownload.cursor[0]["id"], firstDownload.cursor[0]["title"])
-                playFirst = Reader(firstFile)
-                playFirst.go_for_play()
-                print('Done, Exiting and releasing play lock')
-                SetDefaults()
-                lock.release()
-            
+    condition.acquire()
+    while True:
+        start = fileDealer.fileReader("buttons/start")
+        if(start == "True"):
+            condition.wait()
+        play = fileDealer.fileReader("buttons/next")
+        if(play == "True"):
+            fileDealer.fileWriter("buttons/next")
+            print("Play button is pressed, running program")
+            lock.acquire(block=True)
+            firstDownload = PlayEvent()
+            firstFile = firstDownload.download(firstDownload.cursor[0]["id"], firstDownload.cursor[0]["title"])
+            playFirst = Reader(firstFile)
+            playFirst.go_for_play()
+            print('Done, Exiting and releasing play lock')
+            SetDefaults()
+            condition.notify()
+            lock.release()
+    condition.release()
 if __name__ == '__main__':main()

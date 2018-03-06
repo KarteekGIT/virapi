@@ -19,3 +19,10 @@ class SetDefaults(object):
         writeFile.write("False")
         writeFile.truncate()
         writeFile.close()
+
+    def fileTrue(self, path):
+        writeFile = open(path, "w")
+        writeFile.seek(0)
+        writeFile.write("True")
+        writeFile.truncate()
+        writeFile.close()
