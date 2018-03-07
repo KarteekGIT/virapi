@@ -40,7 +40,6 @@ class StartEvent(object):
         if(numOfFiles > 5):
             for file in fileList:
                 os.remove("readdocs/"+file)        
-        print("Converting to mp3")
         text = ""
         file = open(self.text)
         try:
@@ -60,7 +59,7 @@ class StartEvent(object):
         file.close()     
     
     def reader(self):
-        print("Sending file to read")
+        print("starting reading file")
         read = Reader(self.mp3file)
         read.go()
     
@@ -100,24 +99,12 @@ class StartEvent(object):
         newfile.SetContentFile(self.mp3file)
         newfile.Upload()
             
-    def execute_start(self):
-        while self.running:
-            start = self.fileDealer.fileReader("buttons/start")
-            if(start == "True"):
-                print("starting")
-                self.fileDealer.fileWriter("buttons/start")
-                self.camera_module()
-                self.convert_image_to_text()
-                self.convert_text_to_mp3()
-                self.reader()
-                self.save_file_to_cloud()
-                self.running = False
-                self.fileDealer.fileWriter("buttons/play")
-                print("again in start event")
-            
     def go(self):
-        
-        execute = mp.Process(target=self.execute_start, name="process for start button")
-        execute.start()
-        if execute.is_alive():
-            execute.join()
+        self.camera_module()
+        self.convert_image_to_text()
+        self.convert_text_to_mp3()
+        self.reader()
+        self.save_file_to_cloud()
+        self.running = False
+        self.fileDealer.fileWriter("buttons/play")
+        print("again in start event")

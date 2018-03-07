@@ -155,7 +155,6 @@ class Reader(object):
         SetDefaults()        
                 
     def go(self):
-        print("Ready for reading")
         self.reader = mp.Thread(target=self.reading, name="reading process")
         self.playing = mp.Thread(target=self.play_or_stop, name="process waiting for play")
         self.rwind = mp.Thread(target=self.rewind, name="process waiting for rewind")
@@ -165,7 +164,6 @@ class Reader(object):
         self.rwind.start()
         self.volthread.start()
         self.joiner([self.reader, self.playing, self.rwind, self.volthread])
-        print("Process for play stop rewind started")
                 
     def go_for_play(self):
         self.reader = mp.Thread(target=self.reading, name="reading process")
@@ -177,7 +175,6 @@ class Reader(object):
         self.nextPrev.start()
         self.volthread.start()
         self.joiner([self.reader, self.playing, self.nextPrev, self.volthread])
-        print("Process for play stop nextprev started")
         
     def joiner(self, processList = []):
         for proc in processList:
