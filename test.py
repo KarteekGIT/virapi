@@ -1,6 +1,8 @@
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import os
+from playsound import playsound
+
 def tester():
     folderid = None    
     gauth = GoogleAuth()
@@ -25,5 +27,8 @@ def tester2():
     if(numOfFiles > 10):
         for file in fileList:
             os.remove("download/readdocs"+file)
+
+def tester3():
+    playsound("userhints/main.mp3")
                                 
-if __name__=='__main__':tester()
+if __name__=='__main__':tester3()

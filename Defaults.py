@@ -6,6 +6,8 @@ class SetDefaults(object):
         self.fileWriter("buttons/sensor")
         self.fileWriter("buttons/start")
         self.fileWriter("buttons/stop")
+        self.fileWriter("buttons/volumeup")
+        self.fileWriter("buttons/volumedown")
         
     def fileReader(self, path):
         fileRead = open(path, "r+")
