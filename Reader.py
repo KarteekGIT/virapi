@@ -155,27 +155,33 @@ class Reader(object):
         SetDefaults()        
                 
     def go(self):
-        self.reader = mp.Thread(target=self.reading, name="reading process")
-        self.playing = mp.Thread(target=self.play_or_stop, name="process waiting for play")
-        self.rwind = mp.Thread(target=self.rewind, name="process waiting for rewind")
-        self.volthread = mp.Thread(target=self.volume_up_down, name="process waiting for volume")         
-        self.reader.start()
-        self.playing.start()
-        self.rwind.start()
-        self.volthread.start()
-        self.joiner([self.reader, self.playing, self.rwind, self.volthread])
-                
+        try:
+            self.reader = mp.Thread(target=self.reading, name="reading process")
+            self.playing = mp.Thread(target=self.play_or_stop, name="process waiting for play")
+            self.rwind = mp.Thread(target=self.rewind, name="process waiting for rewind")
+            self.volthread = mp.Thread(target=self.volume_up_down, name="process waiting for volume")         
+            self.reader.start()
+            self.playing.start()
+            self.rwind.start()
+            self.volthread.start()
+            self.joiner([self.reader, self.playing, self.rwind, self.volthread])
+        except:
+            print("Unable to start reader")
+            
     def go_for_play(self):
-        self.reader = mp.Thread(target=self.reading, name="reading process")
-        self.playing = mp.Thread(target=self.play_or_stop, name="process waiting for play")
-        self.nextPrev = mp.Thread(target=self.next_or_prev, name="Process for next or previous")
-        self.volthread = mp.Thread(target=self.volume_up_down, name="process waiting for volume")
-        self.reader.start()
-        self.playing.start()
-        self.nextPrev.start()
-        self.volthread.start()
-        self.joiner([self.reader, self.playing, self.nextPrev, self.volthread])
-        
+        try:
+            self.reader = mp.Thread(target=self.reading, name="reading process")
+            self.playing = mp.Thread(target=self.play_or_stop, name="process waiting for play")
+            self.nextPrev = mp.Thread(target=self.next_or_prev, name="Process for next or previous")
+            self.volthread = mp.Thread(target=self.volume_up_down, name="process waiting for volume")
+            self.reader.start()
+            self.playing.start()
+            self.nextPrev.start()
+            self.volthread.start()
+            self.joiner([self.reader, self.playing, self.nextPrev, self.volthread])
+        except:
+            print("Unable to start reader")
+            
     def joiner(self, processList = []):
         for proc in processList:
             self.running_process.append(self.playing)

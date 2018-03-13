@@ -11,7 +11,7 @@ GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(2, GPIO.IN)
 GPIO.setup(3, GPIO.IN)
-GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(5, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 fileDealer = SetDefaults()
@@ -86,7 +86,7 @@ def process_for_pushbuttons():
         input_state17 = GPIO.input(17)
         input_state2 = GPIO.input(2)
         input_state3 = GPIO.input(3)
-        input_state4 = GPIO.input(4)
+        input_state5 = GPIO.input(5)
         input_state27 = GPIO.input(27)
         input_state22 = GPIO.input(22)
     
@@ -115,7 +115,7 @@ def process_for_pushbuttons():
             fileDealer.fileTrue("buttons/previous")
             time.sleep(0.8)
 
-        if(input_state4) == False:
+        if(input_state5) == False:
             print('Volumeup Pressed')
             fileDealer.fileTrue("buttons/volumeup")
             time.sleep(0.8)
